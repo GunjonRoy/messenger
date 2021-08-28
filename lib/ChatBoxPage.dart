@@ -17,6 +17,7 @@ class ChatBoxPage extends StatefulWidget {
 }
 
 class _ChatBoxPageState extends State<ChatBoxPage> {
+
 //  Service service = Service();
 //  final auth = FirebaseAuth.instance;
 //
