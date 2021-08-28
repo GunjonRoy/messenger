@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "821848867023",
+    "project_id": "messenger-80429",
+    "storage_bucket": "messenger-80429.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821848867023:android:f2bfe4c32c5e2d3351f7ba",
+        "android_client_info": {
+          "package_name": "com.gunjon.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821848867023-cd4netgsrcat0vj2bh0ca5g1qd81s9fo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsZ50voJnyfQtI9ZubKUHnMjtQhBRN_30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821848867023-cd4netgsrcat0vj2bh0ca5g1qd81s9fo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
