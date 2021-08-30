@@ -11,12 +11,25 @@ import 'package:flutter/services.dart';
 
 var loginuser = FirebaseAuth.instance.currentUser;
 
+
 class ChatBoxPage extends StatefulWidget {
+//  var userName;
+//  ChatBoxPage(var userName){
+//    this.userName=userName;
+//  }
   @override
   _ChatBoxPageState createState() => _ChatBoxPageState();
 }
 
-class _ChatBoxPageState extends State<ChatBoxPage> {
+class _ChatBoxPageState extends State<ChatBoxPage>{
+//  var userName;
+//  _ChatBoxPageState(var userName){
+//    this.userName=userName;
+//  }
+//  var user;
+//  ChatBoxPage(var user){
+//    this.user=user;
+//  }
 
 //  Service service = Service();
 //  final auth = FirebaseAuth.instance;
@@ -37,8 +50,8 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
 //    getCurrentUser();
 //  }
 
-  //String users="";
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   String text = "";
   @override
   Widget build(BuildContext context) {
@@ -111,7 +124,7 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                                         ),
                                       ),
                                       Text(
-                                        data['Email'] ?? "",
+                                        data['user'] ?? "",
                                         style: TextStyle(
                                           fontSize: 10,
                                           fontStyle: FontStyle.italic,
@@ -182,8 +195,11 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
 //                          .then((value) => print("text Added"))
 //                          .then(
 //                              (value) => Navigator.pushNamed(context, '/data'));
-                      UserName uN = new UserName();
+                      //UserName uN = new UserName("");
+                      //uN.setUser("something");
+
                       final user = FirebaseAuth.instance.currentUser;
+                      print(user!.displayName.toString());
                       //loginuser=user;
                       //final CollectionReference vaultCollection =
                       await FirebaseFirestore.instance
@@ -196,14 +212,13 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                             'messageTime': DateTime.now(),
                             'text': text,
                             'Email': loginuser!.email,
-                            'user': uN.getUserName().toString()
+                            'user': user.displayName.toString(),
                             //'username': user.displayName
                           })
                           .then((value) => print(loginuser!.email))
-                          .then((value) => print(uN.getUserName().toString()))
-                          .then((value) => print("text Added"))
-                          .then(
-                              (value) => Navigator.pushNamed(context, '/data'));
+                          .then((value) => print(user.displayName.toString()))
+                          .then((value) => print("text Added"));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatBoxPage()));
                     },
                     icon: Icon(Icons.send)),
               )

@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         '/home':(_)=>Homepage(),
         '/signup':(_)=>Signuppage(),
         '/signin':(_)=>Signinpage(),
-        '/chat':(_)=>ChatBoxPage(),
+        //'/chat':(_)=>ChatBoxPage(),
       },
     );
   }

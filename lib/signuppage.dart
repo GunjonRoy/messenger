@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'ChatBoxPage.dart';
 import 'user_name_page.dart';
 
 //var loginuser = FirebaseAuth.instance.currentUser;
@@ -11,7 +12,8 @@ class Signuppage extends StatefulWidget {
 }
 
 class _SignuppageState extends State<Signuppage> {
-  final auth=FirebaseAuth.instance;
+  TextEditingController re = TextEditingController();
+  final auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   //final CollectionReference vaultCollection = FirebaseFirestore.collection('users').document('uid').collection('vault');
 
@@ -27,9 +29,10 @@ class _SignuppageState extends State<Signuppage> {
     super.initState();
     //getCurrentUser();
   }
-  String email="";
-  String password="";
-  String userName="";
+
+  String email = "";
+  String password = "";
+  String userName = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +46,6 @@ class _SignuppageState extends State<Signuppage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               Container(
                 height: MediaQuery.of(context).size.height * .08,
                 width: MediaQuery.of(context).size.width * .9,
@@ -51,18 +53,17 @@ class _SignuppageState extends State<Signuppage> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black12),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10,right: 10),
-                  child: TextField(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: TextFormField(
+                    controller: re,
+                    keyboardType: TextInputType.name,
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email),
-                        hintText: "Username"
-                    ),
-                    onChanged: (value){
+                        prefixIcon: Icon(Icons.email), hintText: "Username"),
+                    onChanged: (value) {
                       setState(() {
-                        userName=value;
+                        userName = value;
                       });
                     },
-
                   ),
                 ),
               ),
@@ -73,18 +74,15 @@ class _SignuppageState extends State<Signuppage> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black12),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10,right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email),
-                        hintText: "Email"
-                    ),
-                    onChanged: (value){
+                        prefixIcon: Icon(Icons.email), hintText: "Email"),
+                    onChanged: (value) {
                       setState(() {
-                        email=value;
+                        email = value;
                       });
                     },
-
                   ),
                 ),
               ),
@@ -95,18 +93,15 @@ class _SignuppageState extends State<Signuppage> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black12),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10,right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email),
-                        hintText: "Password"
-                    ),
-                    onChanged: (value){
+                        prefixIcon: Icon(Icons.email), hintText: "Password"),
+                    onChanged: (value) {
                       setState(() {
-                        password=value;
+                        password = value;
                       });
                     },
-
                   ),
                 ),
               ),
@@ -117,40 +112,49 @@ class _SignuppageState extends State<Signuppage> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black12),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10,right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   child: TextField(
                     decoration: InputDecoration(
                         prefixIcon: Icon(Icons.email),
-                        hintText: "Confirm Password"
-                    ),
-                    onChanged: (value){
+                        hintText: "Confirm Password"),
+                    onChanged: (value) {
                       setState(() {
-                        password=value;
+                        password = value;
                       });
                     },
-
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
-                  onPressed:()async{
-                    try{
-                      UserName username=new UserName();
-                      username.setUser(userName);
-
+                  onPressed: () async {
+                    try {
+//                      UserName username=new UserName(userName);
+//                      username.setUser(userName);
+//                    UserName uN=new UserName(userName);
+//                    ChatBoxPage c=new ChatBoxPage(uN.userName.toString());
+//                      print(c.userName.toString()+"=> User name");
+//                      UserName un = new UserName();
+//                      un.setUserName(userName);
                       await auth.createUserWithEmailAndPassword(
-                          email: email,
-                          password: password
-                      );
-                      final user = await FirebaseAuth.instance.currentUser;
-                      final CollectionReference vaultCollection = FirebaseFirestore.instance.collection('User');
+                          email: email, password: password);
+                      final user = await FirebaseAuth.instance.currentUser!.updateDisplayName(userName.toString());//updateProfile(displayName: userName)
+                      final CollectionReference vaultCollection =
+                          FirebaseFirestore.instance.collection('User');
 
-                      await vaultCollection.doc(user!.uid).set({
-                        'Username': userName,
-                        'timeStamp': Timestamp.now()
-                      }).then((value) => print("User Added"))
-                          .then((value) => Navigator.pushNamed(context, '/signin'));
+                      await vaultCollection
+                          .doc()
+                          .set({
+                            'Username': userName,
+                            'Email':  FirebaseAuth.instance.currentUser!.email,
+                            'timeStamp': Timestamp.now()
+                          })
+                          .then((value) => print("User Added"))
+                          .then((value) => print(userName))
+                          .then((value) =>
+                              Navigator.pushNamed(context, '/signin'));
 //                      await firestore
 //                          .collection('Data')
 //                          .doc(user!.uid)
@@ -163,12 +167,11 @@ class _SignuppageState extends State<Signuppage> {
 //                      }).then((value) => print("User Added"))
 //                          .then((value) => Navigator.pushNamed(context, '/signin'));
 
-                    }catch(e){
+                    } catch (e) {
                       print(e);
                     }
                   },
-                  child: Text("Sign up")
-              )
+                  child: Text("Sign up"))
             ],
           ),
         ),
